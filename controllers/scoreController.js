@@ -1,10 +1,10 @@
 let Express = require('express');
 let router = Express.Router();
-let validateJWT = require('../middleware/validate-jwt');
+// let validateJWT = require('../middleware/validate-jwt');
 const { ScoreModel } = require('../models');
 
 //! SCORE CREATE
-router.post('/create', validateJWT, async (req, res) => {
+router.post('/create', async (req, res) => {
   const {
     date,
     time,
@@ -17,7 +17,7 @@ router.post('/create', validateJWT, async (req, res) => {
     team2,
     score2,
   } = req.body.score;
-  const { id } = req.user;
+  // const { id } = req.user;
   const scoreEntry = {
     date,
     time,
@@ -29,7 +29,6 @@ router.post('/create', validateJWT, async (req, res) => {
     score1,
     team2,
     score2,
-    owner: id,
   };
   try {
     const newScore = await ScoreModel.create(scoreEntry);
@@ -52,7 +51,7 @@ router.get('/', async (req, res) => {
 });
 
 //! GET SCORES BY REGION
-router.get('/:region', async (req, res) => {
+router.get('/:score', async (req, res) => {
   const { region } = req.params;
   try {
     const results = await ScoreModel.findAll({
@@ -65,50 +64,96 @@ router.get('/:region', async (req, res) => {
 });
 
 //! UPDATE SCORES
+router.put('/update/:id', function (req, res) {
+  let data = req.params.id;
+  let date = req.body.date;
+  let time = req.body.time;
+  let tvStation = req.body.tvStation;
+  let region = req.body.region;
+  let round = req.body.round;
+  let site = req.body.site;
+  let team1 = req.body.team1;
+  let score1 = req.body.score1;
+  let team2 = req.body.team2;
+  let score2 = req.body.score2;
 
-router.put('/update/:scoreId', async (req, res) => {
-  const {
-    date,
-    time,
-    tvStation,
-    region,
-    round,
-    site,
-    team1,
-    score1,
-    team2,
-    score2,
-  } = req.body.score;
-  const scoreId = req.params.scoreId;
-  // const userId = req.user.id;
-
-  const query = {
-    where: {
-      id: scoreId,
-      // owner: userId,
+  ScoreModel.update(
+    {
+      date: date,
+      time: time,
+      tvStation: tvStation,
+      region: region,
+      round: round,
+      site: site,
+      team1: team1,
+      score1: score1,
+      team2: team2,
+      score2: score2,
     },
-  };
-
-  const updatedScore = {
-    date: date,
-    time: time,
-    tvStation: tvStation,
-    region: region,
-    round: round,
-    site: site,
-    team1: team1,
-    score1: score1,
-    team2: team2,
-    score2: score2,
-  };
-
-  try {
-    const update = await ScoreModel.update(updatedScore, query);
-    res.status(200).json(update);
-  } catch (err) {
-    res.status(500).json({ error: err });
-  }
+    { where: { id: data } }
+  ).then(
+    function updateSuccess(data) {
+      res.json({
+        date: date,
+        time: time,
+        tvStation: tvStation,
+        region: region,
+        round: round,
+        site: site,
+        team1: team1,
+        score1: score1,
+        team2: team2,
+        score2: score2,
+      });
+    },
+    function updateError(err) {
+      res.send(500, err.message);
+    }
+  );
 });
+// router.put('/update/:scoreId', async (req, res) => {
+//   const {
+//     date,
+//     time,
+//     tvStation,
+//     region,
+//     round,
+//     site,
+//     team1,
+//     score1,
+//     team2,
+//     score2,
+//   } = req.body.score;
+//   const scoreId = req.params.scoreId;
+//   // const userId = req.user.id;
+
+//   const query = {
+//     where: {
+//       id: scoreId,
+//       // owner: userId,
+//     },
+//   };
+
+//   const updatedScore = {
+//     date: date,
+//     time: time,
+//     tvStation: tvStation,
+//     region: region,
+//     round: round,
+//     site: site,
+//     team1: team1,
+//     score1: score1,
+//     team2: team2,
+//     score2: score2,
+//   };
+
+//   try {
+//     const update = await ScoreModel.update(updatedScore, query);
+//     res.status(200).json(update);
+//   } catch (err) {
+//     res.status(500).json({ error: err });
+//   }
+// });
 
 //! DELETE
 router.delete('/delete/:scoreId', async (req, res) => {

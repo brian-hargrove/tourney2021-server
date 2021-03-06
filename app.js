@@ -1,10 +1,12 @@
 require('dotenv').config();
 const Express = require('express');
+const bodyParser = require('body-parser');
 const app = Express();
 const dbConnection = require('./db');
 const controllers = require('./controllers/indexController');
 
 app.use(Express.json());
+app.use(bodyParser.json());
 app.use(require('./middleware/headers'));
 
 app.use('/user', controllers.userController);
