@@ -3,7 +3,7 @@ const db = require('../db');
 
 const Score = db.define('score', {
   date: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATEONLY,
     // allowNull: true,
   },
   time: {
