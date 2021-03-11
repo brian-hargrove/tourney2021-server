@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
 });
 
 //! GET SCORES BY REGION
-router.get('/:score', async (req, res) => {
+router.get('/:region', async (req, res) => {
   const { region } = req.params;
   try {
     const results = await ScoreModel.findAll({
