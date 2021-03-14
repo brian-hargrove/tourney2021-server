@@ -52,7 +52,7 @@ const Team = db.define('team', {
     allowNull: true,
   },
   totalApp: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   lastApp: {

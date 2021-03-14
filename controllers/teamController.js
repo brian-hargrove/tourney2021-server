@@ -86,6 +86,19 @@ router.get('/', async (req, res) => {
   }
 });
 
+//! GET INFO BY TEAM
+router.get('/school/:college', async (req, res) => {
+  const { college } = req.params;
+  try {
+    const results = await TeamModel.findAll({
+      where: { college: college },
+    });
+    res.status(200).json(results);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+});
+
 //! UPDATE TEAM INFO
 router.put('/update/:id', function (req, res) {
   let data = req.params.id;

@@ -15,7 +15,7 @@ const Score = db.define('score', {
     // allowNull: true,
   },
   region: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     // allowNull: true,
   },
   round: {
