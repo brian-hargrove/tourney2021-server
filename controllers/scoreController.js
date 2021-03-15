@@ -63,6 +63,32 @@ router.get('/region/:region', async (req, res) => {
   }
 });
 
+//! GET SCORES BY SITE
+router.get('/site/:site', async (req, res) => {
+  const { site } = req.params;
+  try {
+    const results = await ScoreModel.findAll({
+      where: { site: site },
+    });
+    res.status(200).json(results);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+});
+
+//! GET SCORES BY SITE
+router.get('/date/:date', async (req, res) => {
+  const { date } = req.params;
+  try {
+    const results = await ScoreModel.findAll({
+      where: { date: date },
+    });
+    res.status(200).json(results);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+});
+
 //! UPDATE SCORES
 router.put('/update/:id', function (req, res) {
   let data = req.params.id;
