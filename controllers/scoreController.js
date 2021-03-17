@@ -76,7 +76,7 @@ router.get('/site/:site', async (req, res) => {
   }
 });
 
-//! GET SCORES BY SITE
+//! GET SCORES BY DATE
 router.get('/date/:date', async (req, res) => {
   const { date } = req.params;
   try {
