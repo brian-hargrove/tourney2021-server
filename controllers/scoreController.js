@@ -137,49 +137,6 @@ router.put('/update/:id', function (req, res) {
     }
   );
 });
-// router.put('/update/:scoreId', async (req, res) => {
-//   const {
-//     date,
-//     time,
-//     tvStation,
-//     region,
-//     round,
-//     site,
-//     team1,
-//     score1,
-//     team2,
-//     score2,
-//   } = req.body.score;
-//   const scoreId = req.params.scoreId;
-//   // const userId = req.user.id;
-
-//   const query = {
-//     where: {
-//       id: scoreId,
-//       // owner: userId,
-//     },
-//   };
-
-//   const updatedScore = {
-//     date: date,
-//     time: time,
-//     tvStation: tvStation,
-//     region: region,
-//     round: round,
-//     site: site,
-//     team1: team1,
-//     score1: score1,
-//     team2: team2,
-//     score2: score2,
-//   };
-
-//   try {
-//     const update = await ScoreModel.update(updatedScore, query);
-//     res.status(200).json(update);
-//   } catch (err) {
-//     res.status(500).json({ error: err });
-//   }
-// });
 
 //! DELETE
 router.delete('/delete/:scoreId', async (req, res) => {
