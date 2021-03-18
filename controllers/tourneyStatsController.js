@@ -71,5 +71,6 @@ router.put('/update/:college/:tourneystatId', async (req, res) => {
     res.status(500).json({ error: err });
   }
 });
+// test
 
 module.exports = router;
