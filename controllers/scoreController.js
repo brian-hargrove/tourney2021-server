@@ -90,53 +90,94 @@ router.get('/date/:date', async (req, res) => {
 });
 
 //! UPDATE SCORES
-router.put('/update/:id', function (req, res) {
-  let data = req.params.id;
-  let date = req.body.date;
-  let time = req.body.time;
-  let tvStation = req.body.tvStation;
-  let region = req.body.region;
-  let round = req.body.round;
-  let site = req.body.site;
-  let team1 = req.body.team1;
-  let score1 = req.body.score1;
-  let team2 = req.body.team2;
-  let score2 = req.body.score2;
+router.put('/update/:id', async (req, res) => {
+  const {
+    date,
+    time,
+    tvStation,
+    region,
+    round,
+    site,
+    team1,
+    score1,
+    team2,
+    score2,
+  } = req.body.team;
+  const scoreId = req.params.id;
 
-  ScoreModel.update(
-    {
-      date: date,
-      time: time,
-      tvStation: tvStation,
-      region: region,
-      round: round,
-      site: site,
-      team1: team1,
-      score1: score1,
-      team2: team2,
-      score2: score2,
+  const query = {
+    where: {
+      id: scoreId,
     },
-    { where: { id: data } }
-  ).then(
-    function updateSuccess(data) {
-      res.json({
-        date: date,
-        time: time,
-        tvStation: tvStation,
-        region: region,
-        round: round,
-        site: site,
-        team1: team1,
-        score1: score1,
-        team2: team2,
-        score2: score2,
-      });
-    },
-    function updateError(err) {
-      res.send(500, err.message);
-    }
-  );
+  };
+
+  const updatedScore = {
+    date: date,
+    time: time,
+    tvStation: tvStation,
+    region: region,
+    round: round,
+    site: site,
+    team1: team1,
+    score1: score1,
+    team2: team2,
+    score2: score2,
+  };
+  try {
+    const update = await ScoreModel.update(updatedScore, query);
+    res.status(200).json(update);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
 });
+
+// router.put('/update/:id', function (req, res) {
+//   let data = req.params.id;
+//   let date = req.body.date;
+//   let time = req.body.time;
+//   let tvStation = req.body.tvStation;
+//   let region = req.body.region;
+//   let round = req.body.round;
+//   let site = req.body.site;
+//   let team1 = req.body.team1;
+//   let score1 = req.body.score1;
+//   let team2 = req.body.team2;
+//   let score2 = req.body.score2;
+
+//   ScoreModel.update(
+//     {
+//       date: date,
+//       time: time,
+//       tvStation: tvStation,
+//       region: region,
+//       round: round,
+//       site: site,
+//       team1: team1,
+//       score1: score1,
+//       team2: team2,
+//       score2: score2,
+//     },
+//     { where: { id: data } }
+//   ).then(
+//     function updateSuccess(data) {
+//       res.json({
+//         date: date,
+//         time: time,
+//         tvStation: tvStation,
+//         region: region,
+//         round: round,
+//         site: site,
+//         team1: team1,
+//         score1: score1,
+//         team2: team2,
+//         score2: score2,
+//       });
+//     },
+//     function updateError(err) {
+//       res.send(500, err.message);
+//     }
+//   );
+// });
 
 //! DELETE
 router.delete('/delete/:scoreId', async (req, res) => {
