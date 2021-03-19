@@ -102,12 +102,12 @@ router.put('/update/:id', async (req, res) => {
     score1,
     team2,
     score2,
-  } = req.body.team;
-  const scoreId = req.params.id;
+  } = req.body.score;
+  const scheduleId = req.params.id;
 
   const query = {
     where: {
-      id: scoreId,
+      id: scheduleId,
     },
   };
 
